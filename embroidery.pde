@@ -14,11 +14,12 @@
       void saveDST(Pattern pat, String file);
     
     Turtle Interface:
-      Helper Function
+      Helper Functions
         float eq_distance(float newX, float newY, float x, float y); // the distance equation
+        Boolean divides_evenly(float dividend, float divisor); 
       Turtle Object Code
         Turtle (float xin, float yin);
-          int draw_point(float newX, float newY, float size);
+          int draw_points(float newX, float newY, float size);
           void forward (float distance);
           void left (float turnangle);
           void right (float turnangle);
@@ -29,7 +30,6 @@
         void stageSize (float width, float height); //length and width should be in inches (the size of the frame)
           //MUST BE PUT IN THE SETTINGS() FUNCTION BEFORE ALL ELSE
         void em_setup(); //sets all the defaults and makes sure noLoop() is active.
-        void go_to(float x, float y); //teleports the turtle/pen
         void stitchSize(float sizeof_stitch); // Default is 9. Recommended size: 8-12
         void em_background (color rgb); //This has no effect on the embroidery machine. Default is white.
         void stitchColor (color rgb); //Sets the initial color. Default is black.
@@ -37,8 +37,10 @@
       User Motions:
         void needleDown();
         void needleUp();
-        void turnRight();
-        void turnLeft();
+        void turnRight(float degree);
+        void turnLeft(float degree);
+        void pointTo(float degree); //teleports the turtle/pen
+        void go_to(float x, float y);
         void move(float steps);
       User Shapes:
         em_rect(float width, float height);
@@ -298,11 +300,21 @@ void saveDST(Pattern pat, String file)
 // | Turtle Interface |
 // +------------------+
 
-/*--------------------Helper Function-------------------- */
+/*--------------------Helper Functions-------------------- */
 
 float eq_distance(float newX, float newY, float x, float y) {
     float distance = sqrt(sq(newX - x) + sq(newY - y));
     return distance;
+}
+
+Boolean divides_evenly(float dividend, float divisor) {
+  
+  if((dividend % divisor) == 0){
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 /*--------------------Turtle/Object Code-------------------- */
@@ -325,102 +337,42 @@ class Turtle {
     y = yin;
   }
   
-  int draw_point(float newX, float newY, float size) {
+  int draw_points(float newX, float newY, float size) {
     float length = eq_distance(x, y, newX, newY);
-    int ratio = round(length/size);
-    float xFactor = (newX - x)/ratio;
-    float yFactor = (newY - y)/ratio;
-    if (ratio > 1) {
-      for (int i = 1; i <= ratio ; i++) {
-        line(x, y, x + xFactor*i, y + yFactor*i);
-        ellipse(x + xFactor*i, y + yFactor*i, 4, 4);
-        addStitch(design, xFactor*i, yFactor*i, 'n');
-      }
+    float dx = newX - x;
+    float dy = newY -y;
+    int n = round(length/size); // n = number of stitches
+    float xFactor = dx / n;
+    float yFactor = dy / n; 
+    
+    for (int i = 1; i <= n; i++) {
+      float tempX = x + xFactor;
+      float tempY = y + yFactor;
+      line(x, y, tempX, tempY);
+      ellipse(tempX, tempY, 4, 4);
+      addStitch(design, xFactor, yFactor, 'n');
+      x = tempX;
+      y = tempY;
     }
-    line(x, y, newX, newY);
-    ellipse(newX, newY, 4, 4);
-    addStitch(design, newX-x, newY-y, 'n');
+
     return design.size;
   }
   
-  // Move forward by the specified distance
   void forward (float distance) {
-    
-    // Calculate the new position
     float xtarget = x + cos(radians(angle)) * distance;
     float ytarget = y + sin(radians(angle)) * distance;
-    float slope = (ytarget-y)/(xtarget - x);
-    float newX = x, newY = y;
     stroke(thread);
     strokeWeight(1);
     
-    // If the pen is down, draw a line to the new position
     if (penDown) {
       ellipse(x, y, 4, 4);
-
-      while (x < xtarget && x + stitch_size < xtarget) {
-        newX = x + stitch_size;
-        if (y == ytarget) {
-          newY = ytarget;
-          draw_point(newX, newY, stitch_size);
-        }
-        else if (y < ytarget && y + slope * stitch_size < ytarget) {
-          newY = y + slope * stitch_size;
-          draw_point(newX, newY, stitch_size);
-        }
-        else if (y > ytarget && y - slope * stitch_size > ytarget) {
-          newY = y + slope * stitch_size;
-          draw_point(newX, newY, stitch_size);
-        }
-        x = newX;
-        y = newY;
-      }
-      
-      while (x > xtarget && x - stitch_size > xtarget) {
-        newX = x - stitch_size;
-        if (y == ytarget) {
-          newY = ytarget;
-          draw_point(newX, newY, stitch_size);
-        }
-        else if (y < ytarget && y + slope * stitch_size < ytarget) {
-          newY = y - slope * stitch_size;
-          draw_point(newX, newY, stitch_size);
-        }
-        else if (y > ytarget && y - slope * stitch_size > ytarget) {
-          newY = y - slope * stitch_size;
-          draw_point(newX, newY, stitch_size);
-        }
-        x = newX;
-        y = newY;
-      }
-      
-      if (x == xtarget) {
-        newX = xtarget;
-        if (y == ytarget) {
-          newY = ytarget;
-          draw_point(newX, newY, stitch_size);
-        }
-        while (y < ytarget && y + stitch_size < ytarget) {
-          newY = y + stitch_size;
-          draw_point(newX, newY, stitch_size);
-          y = newY;
-        }
-        while (y > ytarget && y - stitch_size > ytarget) {
-          newY = y - stitch_size;
-          draw_point(newX, newY, stitch_size);
-          y = newY;
-        }
-      }
-      newX = xtarget;
-      newY = ytarget;
-      
-      draw_point(newX, newY, stitch_size);
+      draw_points(xtarget, ytarget, stitch_size);
     }
-      
-    x = newX;
-    y = newY;
+    else {
+      addStitch(design, xtarget-x, ytarget-y, 'j');
+      line(pen.x, pen.y, xtarget, ytarget);
+    }
   }
-  
   
   // Turn left by given angle
   void left (float turnangle) {
@@ -457,8 +409,9 @@ Turtle pen;
 void stageSize (float width, float height) {
   // There are 50 pixels per centimeter and there are 2.54 cm/in.
   // We try to leave a margin of error so that you don't hit the frame.
-  float factor = 2.5 * 50;
-  size((int)(width*factor - 50), (int)(height*factor - 50));
+  float factor = 2.55 * 50;
+  println((int)(width*factor), (int)(height*factor));
+  size((int)(width*factor), (int)(height*factor));
 }
 
 void em_setup() {
@@ -515,6 +468,11 @@ void turnLeft(float degree) {
   pen.left(degree);
 }
 
+void pointTo(float degree) {
+  pen.angle = radians(degree);
+  println(degrees(pen.angle));
+}
+
 void go_to(float x, float y) {
   if(pen.penDown) {
     needleUp();
@@ -526,15 +484,7 @@ void go_to(float x, float y) {
 }
 
 void move(float steps) {
-  if (pen.penDown) {
-    pen.forward(steps);
-  }
-  else {
-    float xtarget = pen.x + cos(radians(pen.angle)) * steps;
-    float ytarget = pen.y + sin(radians(pen.angle)) * steps;
-    addStitch(design, xtarget-pen.x, ytarget-pen.y, 'j');
-    line(pen.x, pen.y, xtarget, ytarget);
-  }
+  pen.forward(steps);
 }
 
 /*--------------------User Shapes-------------------- */
@@ -574,17 +524,48 @@ void settings() {
 
 void setup() {
   em_setup();
+  stitchSize(9);
+}
+
+void star(int size) {
+  move(size);
+  turnLeft(72);
+  move(size);
+  for (int i = 0; i < 4; i++) {
+    turnLeft(180+36);
+    move(size);
+    turnLeft(72);
+    move(size);
+  }
 }
 
 void draw() {
+  color red = color(255, 0, 0);
+  
   needleUp();
-  go_to(200, 200);
+  go_to(300, 300);
   clean();
   
+  
   needleDown();
-  em_circle(100);
+  //em_square(100);
+  
+  for (int i = 0; i <= 18; i++) {
+    star(100);
+    turnRight(124);
+  }
+  
   needleUp();
   
+  /*
+  needleDown();
+  for (int i = 0; i <= 16; i ++) {
+    em_circle(100);
+    turnRight(20);
+  }
+  needleUp();
+  */
+  
   readPattern(design);
-  saveDST(design, "testing.dst");
+  //saveDST(design, "testing-stitchsize.dst");
 }
