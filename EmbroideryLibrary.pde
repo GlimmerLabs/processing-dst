@@ -1,6 +1,3 @@
-Pattern design = new Pattern();
-Turtle pen;
-
 /*--------------------User Setup Functions-------------------- */
 
 //length and width should be in inches (the size of the frame)
@@ -17,7 +14,6 @@ void em_setup() {
   noLoop();
   background(255);  // white background
   fill(0);          // black thread
-  pen = new Turtle(0, 0);
 }
 
 void clean() {
@@ -27,7 +23,7 @@ void clean() {
 
 // Default is 9. Recommended size: 8-12
 void stitchSize(float sizeof_stitch) {
-  pen.stitch_size = sizeof_stitch;
+  needle.stitch_size = sizeof_stitch;
 }
 
 //This has no effect on the embroidery machine. Default is white.
@@ -52,52 +48,52 @@ void changeColor (color newColor) {
 /*--------------------User Motions-------------------- */
 
 void needleDown() {
-  pen.penDown();
+  needle.down();
 }
 
 void needleUp() {
-  pen.penUp();
+  needle.up();
 }
 
 void turnRight(float degree) {
-  pen.right(degree);
+  needle.right(degree);
 }
 
 void turnLeft(float degree) {
-  pen.left(degree);
+  needle.left(degree);
 }
 
 void pointTo(float degree) {
-  pen.angle = degree;
+  needle.angle = degree;
 }
 
 float get_angle() {
-  return pen.angle;
+  return needle.angle;
 }
 
 float get_x() {
-  return pen.x;
+  return needle.x;
 }
 
 float get_y() {
-  return pen.y;
+  return needle.y;
 }
 
 void go_to(float x, float y) {
-  if (pen.penDown) {
-    pen.draw_points(x, y, pen.stitch_size);
+  if (needle.penDown) {
+    needle.draw_points(x, y, needle.stitch_size);
   } else {
-    design.addStitch(x-pen.x, y-pen.y, 'j');
+    design.addStitch(x - needle.x, y - needle.y, 'j');
     stroke(255, 0, 0);
-    line(pen.x, pen.y, x, y);
+    line(needle.x, needle.y, x, y);
     stroke(0);
-    pen.x = x;
-    pen.y = y;
+    needle.x = x;
+    needle.y = y;
   }
 }
 
 void move(float steps) {
-  pen.forward(steps);
+  needle.forward(steps);
 }
 
 /*--------------------User Shapes-------------------- */
@@ -124,9 +120,9 @@ void em_square(float sidelength) {
 
 void em_circle(float radius) {
   float circumference = 2*PI*radius;
-  float turn_angle = 360/(circumference/pen.stitch_size);
+  float turn_angle = 360 / (circumference / needle.stitch_size);
   for (int i = 0; i < 360/turn_angle; i++) {
-    move(pen.stitch_size);
+    move(needle.stitch_size);
     turnRight(turn_angle);
   }
 }
@@ -148,14 +144,14 @@ void em_polygon(int n, int side_length) {
   float exterior_angle =  360/n;
 
   for (int i = 0; i < n; i++) {
-    pen.forward(side_length);
+    needle.forward(side_length);
     turnRight(exterior_angle);
   }
 }
 
 void em_ellipse(float xcenter, float ycenter, float a, float b) {
 
-  float initangle = pen.angle;
+  float initangle = needle.angle;
   float x = xcenter + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
   float y = ycenter + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
   
@@ -177,9 +173,9 @@ void em_ellipse(float xcenter, float ycenter, float a, float b) {
 
 void em_ellipse2(float a, float b) {
 
-  float initx = pen.x;
-  float inity = pen.y;
-  float initangle = pen.angle;
+  float initx = needle.x;
+  float inity = needle.y;
+  float initangle = needle.angle;
   float x = initx + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
   float y = inity + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
   
@@ -198,9 +194,9 @@ void em_ellipse2(float a, float b) {
 
 void em_arc(float a, float b, float arcAngle) {
 
-  float initx = pen.x;
-  float inity = pen.y;
-  float initangle = pen.angle;
+  float initx = needle.x;
+  float inity = needle.y;
+  float initangle = needle.angle;
   float x = initx + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
   float y = inity + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
   
@@ -219,8 +215,8 @@ void em_arc(float a, float b, float arcAngle) {
 
 void em_triangle(int x1, int y1, int x2, int y2) {
 
-  float initx = pen.x;
-  float inity = pen.y;
+  float initx = needle.x;
+  float inity = needle.y;
 
   go_to(x1, y1);
   go_to(x2, y2);
@@ -238,34 +234,3 @@ void em_rhombus(float side_length, float degree) {
     turnRight(angle2);
   }
 }
-
-// +---------------------+------------------------------------------
-// | Example Code (temp) |
-// +---------------------+
-
-
-color green = color(0, 255, 0);
- 
- void settings() {
- stageSize(5, 7);
- }
- 
- void setup() {
- em_setup();
- 
- }
- 
- void draw() {
- go_to(220, 200);
- clean();
- stitchColor(green);
- 
- needleDown();
- for (int i = 0; i < 18; i++) {
- em_rect(75, 144);
- turnRight(20);
- }
- needleUp();
- 
- saveDST(design, "temp.dst");
- }

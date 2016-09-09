@@ -25,7 +25,7 @@ Boolean at_limit(float dx, float dy) {
   } else return true;
 }
 
-/*--------------------Turtle/Object Code-------------------- */
+/*--------------------Pen (Turtle) Code-------------------- */
 
 // We were inspired by the following:
 // http://j4mie.org/blog/simple-turtle-for-processing/
@@ -33,22 +33,22 @@ Boolean at_limit(float dx, float dy) {
 //  on an embroidery machine.
 
 class Turtle {
-  float x, y; // Current position of the turtle
-  float angle = 0; // Current heading of the turtle
-  float stitch_size = 9;
-  color thread = color(0);
-  boolean penDown = true; // Is pen down?
+  private float x, y; // Current position of the turtle
+  private float angle = 0; // Current heading of the turtle
+  private float stitch_size = 9;
+  private color thread = color(0);
+  private boolean penDown = true; // Is pen down?
 
   // Set up initial position
   Turtle (float xin, float yin) {
-    x = xin;
-    y = yin;
+    this.x = xin;
+    this.y = yin;
   }
 
   int draw_points(float newX, float newY, float size) {
-    float length = eq_distance(x, y, newX, newY);
-    float dx = newX - x;
-    float dy = newY -y;
+    float length = eq_distance(this.x, this.y, newX, newY);
+    float dx = newX - this.x;
+    float dy = newY - this.y;
     int n = round(length/size); // n = number of stitches
     float xFactor = dx / n;
     float yFactor = dy / n;
@@ -59,24 +59,24 @@ class Turtle {
         float tempY = y + yFactor;
         line(x, y, tempX, tempY);
         ellipse(tempX, tempY, 4, 4);
-        addStitch(design, xFactor, yFactor, 'n');
+        design.addStitch(xFactor, yFactor, 'n');
         x = tempX;
         y = tempY;
       }
     } else {
-      addStitch(design, newX-x, newY-y, 'j');
+      design.addStitch(newX - this.x, newY - this.y, 'j');
       stroke(255, 0, 0);
-      line(x, y, newX, newY);
+      line(this.x, this.y, newX, newY);
       noStroke();
-      x = newX;
-      y = newY;
+      this.x = newX;
+      this.y = newY;
     }
     return design.size;
   }
 
   void forward (float distance) {
-    float xtarget = x + cos(radians(angle)) * distance;
-    float ytarget = y + sin(radians(angle)) * distance;
+    float xtarget = this.x + cos(radians(angle)) * distance;
+    float ytarget = this.y + sin(radians(angle)) * distance;
     stroke(thread);
     strokeWeight(1);
 
@@ -86,25 +86,25 @@ class Turtle {
 
   // Turn left by given angle
   void left (float turnangle) {
-    if (angle - turnangle < 0) {
-      angle = angle - turnangle + 360;
-    } else angle -= turnangle;
+    if (this.angle - turnangle < 0) {
+      this.angle = this.angle - turnangle + 360;
+    } else {this.angle -= turnangle;}
   }
 
   // Turn right by given angle
   void right (float turnangle) {
-    if (angle + turnangle > 360) {
-      angle = angle + turnangle - 360;
-    } else angle += turnangle;
+    if (this.angle + turnangle > 360) {
+      this.angle = this.angle + turnangle - 360;
+    } else {this.angle += turnangle;}
   }
 
   // Set the pen to be up
-  void penUp() {
-    penDown = false;
+  void up() {
+    this.penDown = false;
   }
 
   // Set the pen to be down
-  void penDown() {
-    penDown = true;
+  void down() {
+    this.penDown = true;
   }
 }

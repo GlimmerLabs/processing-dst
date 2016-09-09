@@ -1,5 +1,8 @@
-class Pattern {
-    Stitch[] stitches = new Stitch[2];
+/**
+  The class pattern
+*/
+public class Pattern {
+    private Stitch[] stitches = new Stitch[2];
     private int size = 0;
     
     void addStitch(float tempChangex, float tempChangey, char tempType) {

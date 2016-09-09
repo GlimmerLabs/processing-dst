@@ -1,10 +1,5 @@
-  // +------------+----------------------------------------------------
-  // | Data Types |
-  // +------------+
   
-  /*--------------------Stitch/Pattern Types-------------------- */
-  
-  class Stitch {
+  public class Stitch {
     private int changex;
     private int changey;
     private char type;

@@ -16,10 +16,8 @@ final byte BIT2 = (byte)4;
 final byte BIT1 = (byte)2;
 final byte BIT0 = (byte)1;
 
-void saveDST(Pattern pat, String file)
-{
-  if (pat.size == 0)
-  {
+void saveDST(Pattern pat, String file) {
+  if (pat.size == 0) {
     println("Error: Pattern is empty.");
     return;
   }
@@ -27,8 +25,7 @@ void saveDST(Pattern pat, String file)
   //Adding 512 bytes of 0 for the header.
   byte[] header = new byte[512];
 
-  for (int i = 0; i < 512; i++)
-  {
+  for (int i = 0; i < 512; i++) {
     header[i] = 0;
   }
 
@@ -41,8 +38,7 @@ void saveDST(Pattern pat, String file)
   int i = 0;
   int n = 0;
 
-  while (n < pat.size)
-  {
+  while (n < pat.size) {
     byte b1 = (byte)0;
     byte b2 = (byte)0;
     byte b3 = (byte)0;
@@ -51,114 +47,94 @@ void saveDST(Pattern pat, String file)
     int y = pat.stitches[n].changey;
     char stitch = pat.stitches[n].type;
 
-    if (x > 40) //setting the x-y change bits. Check here when debugging.-----------------------------------------
-    {
+  //setting the x-y change bits.
+    if (x > 40) {
       b3 |= BIT2;
       x -= 81;
     }
-    if (x < -40)
-    {
+    if (x < -40) {
       b3 |= BIT3;
       x += 81;
     }
-    if (y > 40)
-    {
+    if (y > 40) {
       b3 |= BIT5;
       y -= 81;
     }
-    if (y < -40)
-    {
+    if (y < -40) {
       b3 |= BIT4;
       y += 81;
     }
-    if (x > 13)
-    {
+    if (x > 13) {
       b2 |= BIT2;
       x -= 27;
     }
-    if (x < -13)
-    {
+    if (x < -13) {
       b2 |= BIT3;
       x += 27;
     }
-    if (y > 13)
-    {
+    if (y > 13) {
       b2 |= BIT5;
       y -= 27;
     }
-    if (y < -13)
-    {
+    if (y < -13) {
       b2 |= BIT4;
       y += 27;
     }
-    if (x > 4)
-    {
+    if (x > 4) {
       b1 |= BIT2;
       x -= 9;
     }
-    if (x < -4)
-    {
+    if (x < -4) {
       b1 |= BIT3;
       x += 9;
     }
-    if (y > 4)
-    {
+    if (y > 4) {
       b1 |= BIT5;
       y -= 9;
     }
-    if (y < -4)
-    {
+    if (y < -4) {
       b1 |= BIT4;
       y += 9;
     }
-    if (x > 1)
-    {
+    if (x > 1) {
       b2 |= BIT0;
       x -= 3;
     }
-    if (x < -1)
-    {
+    if (x < -1) {
       b2 |= BIT1;
       x += 3;
     }
-    if (y > 1)
-    {
+    if (y > 1) {
       b2 |= BIT7;
       y -= 3;
     }
-    if (y < -1)
-    {
+    if (y < -1) {
       b2 |= BIT6;
       y += 3;
     }
-    if (x > 0)
-    {
+    if (x > 0) {
       b1 |= BIT0;
       x -= 1;
     }
-    if (x < 0)
-    {
+    if (x < 0) {
       b1 |= BIT1;
       x += 1;
     }
-    if (y > 0)
-    {
+    if (y > 0) {
       b1 |= BIT7;
       y -= 1;
     }
-    if (y < 0)
-    {
+    if (y < 0) {
       b1 |= BIT6;
       y += 1;
     }
-
-    if (stitch == 'c') //setting the jump/color change bits.
-    {
+ 
+  //setting the jump/color change bits.
+    if (stitch == 'c') {
       b3 |= BIT6;
       b3 |= BIT7;
     }
-    if (stitch == 'j')
-    {
+    if (stitch == 'j') {
       b3 |= BIT7;
     }
 
