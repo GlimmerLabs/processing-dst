@@ -1,31 +1,37 @@
+import processing.core.*;
+
 // +---------------------+------------------------------------------
 // | Example Code (temp) |
 // +---------------------+
-Pattern design = new Pattern();
-Turtle needle = new Turtle(0, 0);
 
-color green = color(0, 255, 0);
+public class Test extends PApplet {
+	Pattern design = new Pattern();
+	Pen needle = new Pen(0, 0, design);
+	
+	public static void main(String[] args) {
+		PApplet.main("Test");
+	}
 
- 
- void settings() {
-   stageSize(5, 7);
- }
- 
- void setup() {
-   em_setup();
- }
- 
- void draw() {
-   go_to(205, 307);
-   clean();
-   stitchColor(green);
-   
-   needleDown();
-   for (int i = 0; i < 18; i++) {
-     em_ellipse2(100, 150);
-     turnRight(20);
-   }
-   needleUp();
-   
-   saveDST(design, "temp.dst");
- }
+	public void settings() {
+		setUp.stageSize(5, 7);
+	}
+
+	public void setup() {
+		setUp.em_setup();
+	}
+
+	public void draw() {
+		needle.go_to(205, 307);
+		design.clean();
+		setUp.stitchColor(0, 255, 0);
+
+		needle.setDown();
+		for (int i = 0; i < 18; i++) {
+			needle.em_ellipse2(100, 150);
+			needle.right(20);
+		}
+		needle.up();
+
+		design.saveDST(design, "temp.dst");
+	}
+}
