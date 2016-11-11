@@ -13,19 +13,19 @@ public class Test extends PApplet {
 	}
 
 	public void settings() {
-		setUp.stageSize(5, 7);
+		size(500, 700);
 	}
 
 	public void setup() {
-		setUp.em_setup();
+		noLoop();
 	}
 
 	public void draw() {
 		needle.go_to(205, 307);
-		design.clean();
-		setUp.stitchColor(0, 255, 0);
+		design.clear();
+		needle.setColor(design, 0, 255, 0);
 
-		needle.setDown();
+		needle.down();
 		for (int i = 0; i < 18; i++) {
 			needle.em_ellipse2(100, 150);
 			needle.right(20);

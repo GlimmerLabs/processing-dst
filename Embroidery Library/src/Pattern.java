@@ -38,7 +38,7 @@ public class Pattern extends PApplet {
 		}
 	}
 
-	void readPattern() {
+	public void read() {
 		if (this.size == 0) {
 			println("Empty Pattern.");
 		}
@@ -47,7 +47,7 @@ public class Pattern extends PApplet {
 		}
 	}
 
-	void clearPattern() {
+	public void clear() {
 		if (this.size > 0) {
 			while (this.size > 1) {
 				this.stitches = (Stitch[]) shorten(this.stitches);

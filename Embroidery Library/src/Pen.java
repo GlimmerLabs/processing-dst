@@ -120,7 +120,7 @@ public class Pen extends PApplet {
 	
 	// Stops the machine to allow a change of threads.
 	// On the display it will only show a color change.
-	public void changeColor(Pattern design, int red, int green, int blue) {
+	public void setColor(Pattern design, int red, int green, int blue) {
 		fill(red, green, blue);
 		stroke(red, green, blue);
 		design.addStitch(0, 0, 'c');

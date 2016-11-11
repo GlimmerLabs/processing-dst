@@ -2,27 +2,32 @@ import processing.core.*;
 
 /*--------------------User Setup Functions-------------------- */
 
-public class setUp extends PApplet {
-	// length and width should be in inches (the size of the frame)
-	public void stageSize (float width, float height) {
-		// There are 50 pixels per centimeter and there are 2.54 cm/in.
-		// We try to leave a margin of error so that you don't hit the frame.
-		double factor = 2.55 * 40;
-		println("Stage Size (in pixels): ", (int)(width*factor), (int)(height*factor));
-		println("Center: ", (int)(width*factor)/2, (int)(height*factor)/2);
-		size((int)(width*factor), (int)(height*factor));
-	}
+public class Canvas extends PApplet {
+	
+//	// length and width should be in inches (the size of the frame)
+//	public int inchesToPixels (float number) {
+//		// There are 50 pixels per centimeter and there are 2.54 cm/in.
+//		// We try to leave a margin of error so that you don't hit the frame.
+//		double factor = 2.55 * 40;
+//		return (int) (number * factor);
+//	}
+	
+	
+//	public void printInfo (int width, int height) {
+//		println("Stage Size (in pixels): ", width, height);
+//		println("Center: ", width / 2, height / 2);
+//	}
 
-	public void em_setup() {
-		noLoop();
-		background(255); // white background
-		fill(0); // black thread
-	}
+//	public void em_setup() {
+//		noLoop();
+//		background(255); // white background
+//		fill(0); // black thread
+//	}
 
-	public void clean(Pattern design) {
-		background(255);
-		design.clearPattern();
-	}
+//	public void clean(Pattern design) {
+//		background(255);
+//		design.clearPattern();
+//	}
 
 	// Default is 9. Recommended size: 8-12
 	public void stitchSize(Pen needle, float sizeof_stitch) {
@@ -30,15 +35,15 @@ public class setUp extends PApplet {
 	}
 
 	// This has no effect on the embroidery machine. Default is white.
-	public void em_background(int red, int green, int blue) {
-		background(red, green, blue);
-	}
+//	public void em_background(int red, int green, int blue) {
+//		background(red, green, blue);
+//	}
 
 	// Sets the initial color. Default is black.
-	void stitchColor(int red, int green, int blue) {
-		fill(red, green, blue);
-		stroke(red, green, blue);
-	}
+//	public void stitchColor(int red, int green, int blue) {
+//		fill(red, green, blue);
+//		stroke(red, green, blue);
+//	}
 
 //	// Stops the machine to allow a change of threads.
 //	// On the display it will only show a color change.
