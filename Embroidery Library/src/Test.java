@@ -18,6 +18,8 @@ public class Test extends PApplet {
 
 	public void setup() {
 		noLoop();
+		background(255);
+		fill(255);
 	}
 
 	public void draw() {
@@ -26,8 +28,8 @@ public class Test extends PApplet {
 		needle.setColor(design, 0, 255, 0);
 
 		needle.down();
-		for (int i = 0; i < 18; i++) {
-			needle.em_ellipse2(100, 150);
+		for (int i = 0; i <= 360; i += 20) {
+			needle.em_ellipse2(100, 100);
 			needle.right(20);
 		}
 		needle.up();
