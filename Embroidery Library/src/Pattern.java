@@ -3,7 +3,7 @@ import processing.core.*;
 /**
  * The class pattern
  */
-public class Pattern extends PApplet {
+public class Pattern {
 	private PApplet p;
 	public Stitch[] stitches = new Stitch[2];
 	public int size = 0;
@@ -14,9 +14,9 @@ public class Pattern extends PApplet {
 
 	void addStitch(float tempChangex, float tempChangey, char tempType) {
 
-		if (abs(tempChangex) > 121 || abs(tempChangey) > 121) {
-			int xcounter = ceil(abs(tempChangex) / 121);
-			int ycounter = ceil(abs(tempChangey) / 121);
+		if (p.abs(tempChangex) > 121 || p.abs(tempChangey) > 121) {
+			int xcounter = p.ceil(p.abs(tempChangex) / 121);
+			int ycounter = p.ceil(p.abs(tempChangey) / 121);
 			int counter = 0;
 			if (xcounter >= ycounter) {
 				counter = xcounter;
@@ -25,37 +25,37 @@ public class Pattern extends PApplet {
 			}
 			for (int i = 0; i < counter; i++) {
 				if (this.size == 0) {
-					this.stitches[this.size++] = new Stitch(round(tempChangex / counter), round(tempChangey / counter),
-							tempType);
+					this.stitches[this.size++] = new Stitch(p.round(tempChangex / counter), 
+							p.round(tempChangey / counter), tempType);
 				} else {
-					this.stitches = (Stitch[]) expand(this.stitches, this.size + 1);
-					this.stitches[this.size++] = new Stitch(round(tempChangex / counter), round(tempChangey / counter),
-							tempType);
+					this.stitches = (Stitch[]) p.expand(this.stitches, this.size + 1);
+					this.stitches[this.size++] = new Stitch(p.round(tempChangex / counter), 
+							p.round(tempChangey / counter), tempType);
 				}
 			}
 		} else {
 			if (this.size == 0) {
-				this.stitches[this.size++] = new Stitch(round(tempChangex), round(tempChangey), tempType);
+				this.stitches[this.size++] = new Stitch(p.round(tempChangex), p.round(tempChangey), tempType);
 			} else {
-				this.stitches = (Stitch[]) expand(this.stitches, this.size + 1);
-				this.stitches[this.size++] = new Stitch(round(tempChangex), round(tempChangey), tempType);
+				this.stitches = (Stitch[]) p.expand(this.stitches, this.size + 1);
+				this.stitches[this.size++] = new Stitch(p.round(tempChangex), p.round(tempChangey), tempType);
 			}
 		}
 	}
 
 	public void read() {
 		if (this.size == 0) {
-			println("Empty Pattern.");
+			p.println("Empty Pattern.");
 		}
 		for (int i = 0; i < this.size; i++) {
-			println(this.stitches[i].changex, this.stitches[i].changey, this.stitches[i].type);
+			p.println(this.stitches[i].changex, this.stitches[i].changey, this.stitches[i].type);
 		}
 	}
 
 	public void clear() {
 		if (this.size > 0) {
 			while (this.size > 1) {
-				this.stitches = (Stitch[]) shorten(this.stitches);
+				this.stitches = (Stitch[]) p.shorten(this.stitches);
 				this.size--;
 			}
 		}
@@ -81,7 +81,7 @@ public class Pattern extends PApplet {
 
 	public void saveDST(Pattern pat, String file) {
 		if (pat.size == 0) {
-			println("Error: Pattern is empty.");
+			p.println("Error: Pattern is empty.");
 			return;
 		}
 
@@ -223,7 +223,7 @@ public class Pattern extends PApplet {
 		b |= BIT7 | BIT6 | BIT5 | BIT4 | BIT1 | BIT0;
 		arr[i] = b;
 
-		byte[] contents = concat(header, arr);
-		saveBytes(file, contents);
+		byte[] contents = p.concat(header, arr);
+		p.saveBytes(file, contents);
 	}
 }

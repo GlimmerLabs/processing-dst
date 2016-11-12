@@ -69,7 +69,6 @@ public class Pen {
 			for (int i = 1; i <= n; i++) {
 				float tempX = x + xFactor;
 				float tempY = y + yFactor;
-				p.println(this.x, this.y, tempX, tempY, "hi");
 				p.line(this.x, this.y, tempX, tempY);
 				p.ellipse(tempX, tempY, 4, 4);
 				design.addStitch(xFactor, yFactor, 'n');
