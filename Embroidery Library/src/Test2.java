@@ -15,11 +15,12 @@ public class Test2 extends PApplet {
 	}
 
 	public void setup() {
-		background(0);
+		background(255);
 	}
 
 	public void draw() {
-		fill(255, 0, 0);
+		fill(0);
+		line((float) 2, (float) 2, (float) 20, (float) 20);
 		rect(100, 100, 200, 200);
 	}
 

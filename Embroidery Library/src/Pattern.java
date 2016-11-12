@@ -4,8 +4,13 @@ import processing.core.*;
  * The class pattern
  */
 public class Pattern extends PApplet {
+	private PApplet p;
 	public Stitch[] stitches = new Stitch[2];
 	public int size = 0;
+	
+	public Pattern (PApplet parent) {
+		p = parent;
+	}
 
 	void addStitch(float tempChangex, float tempChangey, char tempType) {
 

@@ -6,7 +6,7 @@ import processing.core.*;
 
 public class Test extends PApplet {
 	Pattern design = new Pattern();
-	Pen needle = new Pen(0, 0, design);
+	Pen needle = new Pen(this, 0, 0, design);
 	
 	public static void main(String[] args) {
 		PApplet.main("Test");

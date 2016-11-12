@@ -5,11 +5,12 @@ import processing.core.*;
 // +------------------+
 
 /*--------------------Helper Functions-------------------- */
-public class Pen extends PApplet {
+public class Pen {
+	PApplet p;
 	
 	// START HELPER FUNCTIONS
 	float eq_distance(float x, float y, float newX, float newY) {
-		float distance = sqrt(sq(newX - x) + sq(newY - y));
+		float distance = p.sqrt(p.sq(newX - x) + p.sq(newY - y));
 		return distance;
 	}
 
@@ -23,8 +24,8 @@ public class Pen extends PApplet {
 	}
 
 	Boolean at_limit(float dx, float dy) {
-		int limit = 121; // max units the embroidery mahine can handle
-		if (abs(dx) > limit || abs(dy) > limit) {
+		int limit = 121; // max units the embroidery machine can handle
+		if (p.abs(dx) > limit || p.abs(dy) > limit) {
 			return false;
 		} else
 			return true;
@@ -45,17 +46,22 @@ public class Pen extends PApplet {
 	public boolean penDown = true; // Is pen down?
 
 	// Set up initial position
-	public Pen (float xin, float yin, Pattern design) {
+	public Pen (PApplet parent, float xin, float yin, Pattern design) {
+		this.p = parent;
 		this.x = xin;
 		this.y = yin;
 		this.design = design;
+	}
+	
+	public Pen (PApplet parent, Pattern design) {
+		new Pen (parent, 0, 0, design);
 	}
 
 	int draw_points(float newX, float newY, float size) {
 		float length = eq_distance(this.x, this.y, newX, newY);
 		float dx = newX - this.x;
 		float dy = newY - this.y;
-		int n = round(length / size); // n = number of stitches
+		int n = p.round(length / size); // n = number of stitches
 		float xFactor = dx / n;
 		float yFactor = dy / n;
 
@@ -63,17 +69,18 @@ public class Pen extends PApplet {
 			for (int i = 1; i <= n; i++) {
 				float tempX = x + xFactor;
 				float tempY = y + yFactor;
-				line(x, y, tempX, tempY);
-				ellipse(tempX, tempY, 4, 4);
+				p.println(this.x, this.y, tempX, tempY, "hi");
+				p.line(this.x, this.y, tempX, tempY);
+				p.ellipse(tempX, tempY, 4, 4);
 				design.addStitch(xFactor, yFactor, 'n');
-				x = tempX;
-				y = tempY;
+				this.x = tempX;
+				this.y = tempY;
 			}
 		} else {
 			design.addStitch(newX - this.x, newY - this.y, 'j');
-			stroke(255, 0, 0);
-			line(this.x, this.y, newX, newY);
-			noStroke();
+			p.stroke(255, 0, 0);
+			p.line(this.x, this.y, newX, newY);
+			p.noStroke();
 			this.x = newX;
 			this.y = newY;
 		}
@@ -81,12 +88,12 @@ public class Pen extends PApplet {
 	}
 
 	public void forward(float distance) {
-		float xtarget = this.x + cos(radians(angle)) * distance;
-		float ytarget = this.y + sin(radians(angle)) * distance;
-		stroke(thread);
-		strokeWeight(1);
+		float xtarget = this.x + p.cos(p.radians(angle)) * distance;
+		float ytarget = this.y + p.sin(p.radians(angle)) * distance;
+		p.stroke(thread);
+		p.strokeWeight(1);
 
-		ellipse(x, y, 4, 4);
+		p.ellipse(x, y, 4, 4);
 		draw_points(xtarget, ytarget, stitch_size);
 	}
 
@@ -121,8 +128,8 @@ public class Pen extends PApplet {
 	// Stops the machine to allow a change of threads.
 	// On the display it will only show a color change.
 	public void setColor(Pattern design, int red, int green, int blue) {
-		fill(red, green, blue);
-		stroke(red, green, blue);
+		p.fill(red, green, blue);
+		p.stroke(red, green, blue);
 		design.addStitch(0, 0, 'c');
 	}
 	
@@ -131,9 +138,9 @@ public class Pen extends PApplet {
 			draw_points(x, y, stitch_size);
 		} else {
 			design.addStitch(x - this.x, y - this.y, 'j');
-			stroke(255, 0, 0);
-			line(this.x, this.y, x, y);
-			stroke(0);
+			p.stroke(255, 0, 0);
+			p.line(this.x, this.y, x, y);
+			p.stroke(0);
 			this.x = x;
 			this.y = y;
 		}
@@ -162,7 +169,7 @@ public class Pen extends PApplet {
 	}
 
 	void em_circle(float radius) {
-		float circumference = 2 * PI * radius;
+		float circumference = 2 * p.PI * radius;
 		float turn_angle = 360 / (circumference / stitch_size);
 		for (int i = 0; i < 360 / turn_angle; i++) {
 			forward(stitch_size);
@@ -195,17 +202,21 @@ public class Pen extends PApplet {
 	void em_ellipse(float xcenter, float ycenter, float a, float b) {
 
 		float initangle = angle;
-		float x = xcenter + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
-		float y = ycenter + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
+		float x = xcenter + (a * p.cos(0) * p.cos(initangle)) + 
+				(b * p.sin(0) * -p.sin(initangle));
+		float y = ycenter + (a * p.cos(0) * p.sin(initangle)) + 
+				(b * p.sin(0) * p.cos(initangle));
 
 		up();
 		go_to(x, y);
 		down();
 
 		for (float i = 0; i <= 360; i += 5) {
-			float angle = (float) (i / 180.0 * PI);
-			x = xcenter + (a * cos(angle) * cos(initangle)) + (b * sin(angle) * -sin(initangle));
-			y = ycenter + (a * cos(angle) * sin(initangle)) + (b * sin(angle) * cos(initangle));
+			float angle = (float) (i / 180.0 * p.PI);
+			x = xcenter + (a * p.cos(angle) * p.cos(initangle)) + 
+					(b * p.sin(angle) * -p.sin(initangle));
+			y = ycenter + (a * p.cos(angle) * p.sin(initangle)) + 
+					(b * p.sin(angle) * p.cos(initangle));
 			go_to(x, y);
 		}
 
@@ -220,17 +231,19 @@ public class Pen extends PApplet {
 		float initx = this.x;
 		float inity = this.y;
 		float initangle = this.angle;
-		float x = initx + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
-		float y = inity + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
+		float x = initx + (a * p.cos(0) * p.cos(initangle)) + (b * p.sin(0) * -p.sin(initangle));
+		float y = inity + (a * p.cos(0) * p.sin(initangle)) + (b * p.sin(0) * p.cos(initangle));
 
 		up();
 		go_to(x, y);
 		down();
 
 		for (float i = 0; i <= 360; i += 5) {
-			float angle = (float) (i / 180.0 * PI);
-			x = initx + (a * cos(angle) * cos(initangle)) + (b * sin(angle) * -sin(initangle));
-			y = inity + (a * cos(angle) * sin(initangle)) + (b * sin(angle) * cos(initangle));
+			float angle = (float) (i / 180.0 * p.PI);
+			x = initx + (a * p.cos(angle) * p.cos(initangle)) + 
+					(b * p.sin(angle) * -p.sin(initangle));
+			y = inity + (a * p.cos(angle) * p.sin(initangle)) + 
+					(b * p.sin(angle) * p.cos(initangle));
 			go_to(x, y);
 		}
 
@@ -241,17 +254,21 @@ public class Pen extends PApplet {
 		float initx = this.x;
 		float inity = this.y;
 		float initangle = this.angle;
-		float x = initx + (a * cos(0) * cos(initangle)) + (b * sin(0) * -sin(initangle));
-		float y = inity + (a * cos(0) * sin(initangle)) + (b * sin(0) * cos(initangle));
+		float x = initx + (a * p.cos(0) * p.cos(initangle)) + 
+				(b * p.sin(0) * -p.sin(initangle));
+		float y = inity + (a * p.cos(0) * p.sin(initangle)) + 
+				(b * p.sin(0) * p.cos(initangle));
 
 		up();
 		go_to(x, y);
 		down();
 
 		for (float i = 0; i <= arcAngle; i += 5) {
-			float angle = (float) (i / 180.0 * PI);
-			x = initx + (a * cos(angle) * cos(initangle)) + (b * sin(angle) * -sin(initangle));
-			y = inity + (a * cos(angle) * sin(initangle)) + (b * sin(angle) * cos(initangle));
+			float angle = (float) (i / 180.0 * p.PI);
+			x = initx + (a * p.cos(angle) * p.cos(initangle)) + 
+					(b * p.sin(angle) * -p.sin(initangle));
+			y = inity + (a * p.cos(angle) * p.sin(initangle)) + 
+					(b * p.sin(angle) * p.cos(initangle));
 			go_to(x, y);
 		}
 

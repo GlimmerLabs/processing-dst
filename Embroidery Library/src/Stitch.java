@@ -1,6 +1,6 @@
 import processing.core.*;
 
-public class Stitch extends PApplet {
+public class Stitch {
 	public int changex;
 	public int changey;
 	public char type;
