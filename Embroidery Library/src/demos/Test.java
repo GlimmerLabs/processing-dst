@@ -1,4 +1,7 @@
+package demos;
+
 import processing.core.*;
+import library.*;
 
 // +---------------------+------------------------------------------
 // | Example Code (temp) |

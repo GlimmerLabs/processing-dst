@@ -1,3 +1,4 @@
+package library;
 import processing.core.*;
 
 public class Stitch {

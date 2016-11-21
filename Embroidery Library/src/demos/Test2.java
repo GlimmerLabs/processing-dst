@@ -1,3 +1,4 @@
+package demos;
 import processing.core.*;
 
 // super useful resource: http://gigl.scs.carleton.ca/node/48

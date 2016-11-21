@@ -1,3 +1,4 @@
+package library;
 import processing.core.*;
 
 // +------------------+----------------------------------------------
@@ -147,11 +148,11 @@ public class Pen {
 	
 	/*--------------------User Shapes-------------------- */
 
-	void em_line(float targetX, float targetY) {
+	public void em_line(float targetX, float targetY) {
 		go_to(targetX, targetY);
 	}
 
-	void em_rect(float width, float height) {
+	public void em_rect(float width, float height) {
 		for (int i = 0; i < 2; i++) {
 			forward(width);
 			right(90);
@@ -160,14 +161,14 @@ public class Pen {
 		}
 	}
 
-	void em_square(float sidelength) {
+	public void em_square(float sidelength) {
 		for (int i = 0; i < 4; i++) {
 			forward(sidelength);
 			right(90);
 		}
 	}
 
-	void em_circle(float radius) {
+	public void em_circle(float radius) {
 		float circumference = 2 * p.PI * radius;
 		float turn_angle = 360 / (circumference / stitch_size);
 		for (int i = 0; i < 360 / turn_angle; i++) {
@@ -176,7 +177,7 @@ public class Pen {
 		}
 	}
 
-	void em_star(int size) {
+	public void em_star(int size) {
 		forward(size);
 		left(72);
 		forward(size);
@@ -188,7 +189,7 @@ public class Pen {
 		}
 	}
 
-	void em_polygon(int n, int side_length) {
+	public void em_polygon(int n, int side_length) {
 
 		float exterior_angle = 360 / n;
 
@@ -198,7 +199,7 @@ public class Pen {
 		}
 	}
 
-	void em_ellipse(float xcenter, float ycenter, float a, float b) {
+	public void em_ellipse (float xcenter, float ycenter, float a, float b) {
 
 		float initangle = angle;
 		float x = xcenter + (a * p.cos(0) * p.cos(initangle)) + 
@@ -225,7 +226,7 @@ public class Pen {
 		// (b*sin(theta))*(-1*sin(pen.angle), cos(pen.angle))
 	}
 
-	void em_ellipse2(float a, float b) {
+	public void em_ellipse2 (float a, float b) {
 
 		float initx = this.x;
 		float inity = this.y;
@@ -248,7 +249,7 @@ public class Pen {
 
 	}
 
-	void em_arc(float a, float b, float arcAngle) {
+	public void em_arc(float a, float b, float arcAngle) {
 
 		float initx = this.x;
 		float inity = this.y;
@@ -283,7 +284,7 @@ public class Pen {
 		go_to(initx, inity);
 	}
 
-	void em_rhombus(float side_length, float degree) {
+	public void em_rhombus(float side_length, float degree) {
 
 		float angle2 = 180 - degree;
 
