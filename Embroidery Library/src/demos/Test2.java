@@ -7,7 +7,7 @@ public class Test2 extends PApplet {
 	public static void main(String[] args) {
 		//uncommenting present will let it run in full screen
 		//form of the second string should be packageName.ClassName
-		PApplet.main(new String[] { /*"--present",*/ "Test2" });
+		PApplet.main(new String[] { /*"--present",*/ "demos.Test2" });
 
 	}
 
