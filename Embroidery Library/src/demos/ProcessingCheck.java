@@ -2,12 +2,12 @@ package demos;
 import processing.core.*;
 
 // super useful resource: http://gigl.scs.carleton.ca/node/48
-public class Test2 extends PApplet {
+public class ProcessingCheck extends PApplet {
 
 	public static void main(String[] args) {
 		//uncommenting present will let it run in full screen
-		//form of the second string should be packageName.ClassName
-		PApplet.main(new String[] { /*"--present",*/ "demos.Test2" });
+		//form of the second string should be thisPackageName.thisClassName
+		PApplet.main(new String[] { "--present", "demos.ProcessingCheck" });
 
 	}
 

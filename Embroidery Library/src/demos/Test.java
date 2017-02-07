@@ -16,7 +16,7 @@ public class Test extends PApplet {
 	}
 
 	public void settings() {
-		size(500, 700);
+		size(1000, 1000);
 	}
 
 	public void setup() {
@@ -26,12 +26,19 @@ public class Test extends PApplet {
 	}
 
 	public void draw() {
-		needle.go_to(250, 350);
+		needle.go_to(150, 150);
 		design.clear();
 
-
 		triPetal(needle, design);
-		//design.saveDST(design, "/users/Voozell/Desktop/temp.dst");
+		needle.go_to(300, 400);
+		triPetal(needle, design);
+		needle.go_to(490, 195);
+		needle.setColor(design, 255, 0, 128);
+		triPetal(needle, design);
+		needle.go_to(600, 500);
+		needle.setColor(design, 0, 255, 0);
+		triPetal(needle, design);
+		design.saveDST(design, "temp.dst");
 	}
 	
 	
@@ -47,11 +54,11 @@ public class Test extends PApplet {
 				n.angle = 20;
 				break;
 			case 2 :
-				n.setColor(design, 0, 0, 255);
+				n.setColor(design, 255, 255, 255);
 				n.angle = 40;
 			}
 			for (int j = 0; j <= 6; j ++) {
-				n.em_rect(100, 200);
+				n.em_rect(100, 100);
 				n.right(60);
 			}
 		}

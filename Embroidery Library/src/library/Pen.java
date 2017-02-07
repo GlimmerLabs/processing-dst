@@ -36,7 +36,7 @@ public class Pen {
 
 	// We were inspired by the following:
 	// http://j4mie.org/blog/simple-turtle-for-processing/
-	// We changed the code to reflect the functunality of a needle
+	// We changed the code to reflect the functionality of a needle
 	// on an embroidery machine.
 
 	public Pattern design;
