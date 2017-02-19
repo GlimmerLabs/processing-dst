@@ -7,7 +7,7 @@ public class ProcessingCheck extends PApplet {
 	public static void main(String[] args) {
 		//uncommenting present will let it run in full screen
 		//form of the second string should be thisPackageName.thisClassName
-		PApplet.main(new String[] { "--present", "demos.ProcessingCheck" });
+		PApplet.main(new String[] { /*"--present",*/ "demos.ProcessingCheck" });
 
 	}
 

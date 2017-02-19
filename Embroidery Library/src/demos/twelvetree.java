@@ -38,14 +38,14 @@ public class twelvetree extends PApplet {
 				tree(60, 64);
 				needle.right(30);
 			}
-			//design.saveDST(design, "EmbroideryLibrary/twelvetreePS.dst");
+			//design.saveDST(design, "twelvetreePS.dst");
 		} else if (this.keyCode == RIGHT) {
 			home2();
 			for (int i = 0; i < 12; i++) {
 				tree2(60, 64);
 				needle2.right(30);
 			}
-			//design.saveDST(design2, "EmbroideryLibrary/twelvetreePS2.dst");
+			//design.saveDST(design2, "twelvetreePS2.dst");
 		} else if (this.key == 'q') {
 			System.exit(0);
 		}
