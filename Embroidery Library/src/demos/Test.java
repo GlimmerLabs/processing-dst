@@ -12,7 +12,7 @@ public class Test extends PApplet {
 	Pen needle = new Pen(this, 0, 0, design);
 	
 	public static void main(String[] args) {
-		PApplet.main("Test");
+		PApplet.main("demos.Test");
 	}
 
 	public void settings() {

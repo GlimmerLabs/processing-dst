@@ -49,7 +49,7 @@ public class Pattern {
 			p.println("Empty Pattern.");
 		}
 		for (int i = 0; i < this.size; i++) {
-			p.println(this.stitches[i].changex, this.stitches[i].changey, this.stitches[i].type);
+			p.println(this.stitches[i].changex + " " + this.stitches[i].changey + " " + this.stitches[i].type);
 		}
 	}
 

@@ -15,7 +15,7 @@ public class Pen {
 		return distance;
 	}
 
-	Boolean divides_evenly(float dividend, float divisor) {
+	boolean divides_evenly(float dividend, float divisor) {
 
 		if ((dividend % divisor) == 0) {
 			return true;
@@ -24,7 +24,7 @@ public class Pen {
 		}
 	}
 
-	Boolean at_limit(float dx, float dy) {
+	boolean at_limit(float dx, float dy) {
 		int limit = 121; // max units the embroidery machine can handle
 		if (p.abs(dx) > limit || p.abs(dy) > limit) {
 			return false;
