@@ -9,7 +9,15 @@ import library.*;
 
 /**
  * This is an example of how you can use Processing's infinite draw
- * loop and interactive commands can be fun.
+ * loop and interactive commands can be fun. It also illustrates how
+ * we can have two independent pens and designs on the same canvas.
+ * Here we keep them distinct, but you can play around with these
+ * settings--just be careful.
+ *
+ * For an example explanation of how ProcessingStitch works, please
+ * refer to BasicStitchDemo. For an explanation of Processing's
+ * built-in interactive functions, please refer to the documentation
+ * at Processing.org
  */
 public class Twelvetree extends PApplet {
 	
@@ -28,7 +36,7 @@ public class Twelvetree extends PApplet {
 	}
 
 	public void setup() {
-		//noLoop();
+		//noLoop(); // So that we can play with the interactivity
 		background(255);
 		fill(0, 0, 255);
 	
@@ -42,15 +50,21 @@ public class Twelvetree extends PApplet {
 				tree(60, 64);
 				needle.right(30);
 			}
-			//design.saveDST(design, "twelvetreePS.dst");
 		} else if (this.keyCode == RIGHT) {
 			home2();
 			for (int i = 0; i < 12; i++) {
 				tree2(60, 64);
 				needle2.right(30);
 			}
-			//design.saveDST(design2, "twelvetreePS2.dst");
-		} else if (this.key == 'q') {
+		} else if (this.key == ' '){
+		    if (design.size > 0) {
+		        design.saveDST(design, "twelvetreePS.dst");
+            }
+            if (design2.size > 0) {
+		        design.saveDST(design2, "twelvetreePS2.dst");
+            }
+            this.key = 'a'; // arbitrary key so that we don't save multiple times
+        } else if (this.key == 'q') {
 			System.exit(0);
 		}
 	}
