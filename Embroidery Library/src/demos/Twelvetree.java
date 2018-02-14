@@ -7,7 +7,11 @@ import library.*;
 // | Example Code (twelvetree) |
 // +---------------------------+
 
-public class twelvetree extends PApplet {
+/**
+ * This is an example of how you can use Processing's infinite draw
+ * loop and interactive commands can be fun.
+ */
+public class Twelvetree extends PApplet {
 	
 	Pattern design = new Pattern(this);
 	Pen needle = new Pen(this, 0, 0, design);
