@@ -1,0 +1,15 @@
+/bin/
+
+# IntelliJ
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# ProcessingStitch
+.dst
